@@ -7,7 +7,7 @@
 
   <h4>Optional: Select some of the players below to get started.</h4>
   <p>
-    Below are the top 10 highest scoring players. Remember you only have $70,000,000 to spend.
+    Below are the top 10 highest scoring players.
   </p>
   <%= f.collection_check_boxes(:player_ids, Player.highest_scoring_players, :id, :name) do |b| %>
     <%= b.label(:"data-value" => b.value) { b.check_box + b.text } %><br />
@@ -20,5 +20,5 @@
     <%= p.text_field :player_url %>
   <% end %>
   <br /><br />
-  <%= f.submit %>
+  <%= f.submit class: 'btn btn-success' %>
 <% end %>

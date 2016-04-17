@@ -1,12 +1,11 @@
 class PlayersController < ApplicationController
   load_and_authorize_resource
   before_action :set_player, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :update_all]
 
   def index
-    if params[:affordable] && @user = User.find(params[:user_id])
+    if params[:affordable] && @user = current_user
       @players = Player.where("salary < ?", @user.team.salary_remaining).sort {|a,b| b.score<=>a.score} - @user.team.players
-    elsif params[:available] && @user = User.find(params[:user_id])
+    elsif params[:available] && @user = current_user
       @players = Player.all.sort {|a,b| b.score<=>a.score} - @user.team.players
     else
       @players = Player.all.sort {|a,b| b.score<=>a.score}
@@ -26,7 +25,7 @@ class PlayersController < ApplicationController
     if @player.save
       redirect_to @player
     else
-      flash[:alert] = @player.errors.full_messages.first
+      flash.now[:alert] = @player.errors.full_messages.first
       render :new
     end
   end

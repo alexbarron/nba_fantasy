@@ -10,7 +10,7 @@ class Team < ActiveRecord::Base
       if player_attribute[:player_url].include?("http://www.basketball-reference.com/players")
         player = Player.find_or_create_by(player_url: player_attribute[:player_url])
         player.update_info
-        unless self.players.include?(player) 
+        unless self.players.include?(player)
           self.players << player
         end
       end  
@@ -77,7 +77,7 @@ class Team < ActiveRecord::Base
   def enforce_salary_cap
     dropped = 0
     while self.salary > 70000000
-      least_valuable = self.players.min_by {|player| player.value }
+      least_valuable = self.players.least_valuable
       self.drop_player(least_valuable.id)
       self.reload.update_salaries
       dropped += 1
@@ -102,7 +102,7 @@ class Team < ActiveRecord::Base
   def add_player(player_id)
     player = Player.find(player_id)
     if player.salary < self.salary_remaining
-      RosterSpot.create(player_id: player_id, team_id: self.id, starter: !self.full_starters?)
+      self.roster_spots.build(player_id: player_id, starter: !self.full_starters?).save
       self.reload.update_salaries
       return "#{player.name} added to #{self.name}"
     else

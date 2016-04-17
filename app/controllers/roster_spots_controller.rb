@@ -1,6 +1,5 @@
 class RosterSpotsController < ApplicationController
   load_and_authorize_resource
-  before_action :authenticate_user!
 
   def create
     if !!current_user.team

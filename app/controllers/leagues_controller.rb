@@ -1,7 +1,6 @@
 class LeaguesController < ApplicationController
   load_and_authorize_resource
   before_action :set_league, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
     @leagues = League.all
@@ -21,7 +20,7 @@ class LeaguesController < ApplicationController
     if @league.save
       redirect_to @league
     else
-      flash[:alert] = @league.errors.full_messages.first
+      flash.now[:alert] = @league.errors.full_messages.first
       render :new
     end
   end

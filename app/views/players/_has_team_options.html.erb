@@ -1,5 +1,5 @@
 <%= link_to "Show All", players_path, class: "btn btn-primary btn-sm" %>
-<%= link_to "Show Players You Can Afford", players_path(affordable: true, user_id: current_user.id), class: "btn btn-primary btn-sm" %>
-<%= link_to "Show Available Players", players_path(available: true, user_id: current_user.id), class: "btn btn-primary btn-sm" %>
+<%= link_to "Show Players You Can Afford", players_path(affordable: true), class: "btn btn-primary btn-sm" %>
+<%= link_to "Show Available Players", players_path(available: true), class: "btn btn-primary btn-sm" %>
 <%= display_salary_remaining %>
 

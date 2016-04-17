@@ -8,7 +8,7 @@ module TeamsHelper
   end
 
   def create_team_link
-    if !has_team_check?
+    if current_user && !has_team_check?
       link_to "Create Your Team", new_team_path, class: "btn btn-success btn-sm"
     end
   end

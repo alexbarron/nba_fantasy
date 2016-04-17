@@ -2,7 +2,6 @@ class TeamsController < ApplicationController
   load_and_authorize_resource
   before_action :set_team, only: [:show, :edit, :update, :destroy, :join_league]
   before_action :check_user_has_team, only: [:new, :create]
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :join_league]
 
   def index
     if params[:league_id]
@@ -35,7 +34,7 @@ class TeamsController < ApplicationController
     if @team.save
       redirect_to @team , notice: @team.team_setup
     else
-      flash[:alert] = @team.errors.full_messages.first
+      flash.now[:alert] = @team.errors.full_messages.first
       render :new
     end
   end
